@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    items:
+      url: jdbc:postgresql://localhost:5432/students
+      username: postgres
+      password: nhbujyjvtnhbz21
+      driver-class-name: org.postgresql.Driver

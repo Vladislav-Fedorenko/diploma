@@ -1,0 +1,32 @@
+swagger: '2.0'
+info:
+  title: Items API
+  description: Sample API
+  version: "1.0.0"
+host: localhost:8080
+schemes:
+  - http
+basePath: /
+produces:
+  - application/json
+paths:
+  /items:
+    get:
+      summary: All Items
+      responses:
+        200:
+          description: An array of items
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+              definitions:
+                Item:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: Unique identifier.
+                    name:
+                      type: string
+                      description: Name of the item.
