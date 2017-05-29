@@ -2,6 +2,8 @@ package it.sevenbits.eisetask.web.controllers;
 
 import it.sevenbits.eisetask.core.model.Item;
 import it.sevenbits.eisetask.core.repository.ItemsRepository;
+import it.sevenbits.eisetask.web.model.Response;
+import it.sevenbits.eisetask.web.model.ResponseGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,7 @@ import java.net.URI;
  * Controller for a item.
  */
 @Controller
-@RequestMapping("/items/{id}")
+@RequestMapping("/groups/{year}")
 public class TaskController {
     private final ItemsRepository itemsRepository;
 
@@ -23,7 +25,27 @@ public class TaskController {
         this.itemsRepository = itemsRepository;
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Item> create(@PathVariable String year, @RequestBody Item newItem) {
+        try {
+            Item result = itemsRepository.createItem(newItem);
+            URI location = UriComponentsBuilder.fromPath("/groups")
+                    .path(String.valueOf(result.getId()))
+                    .build().toUri();
+            return ResponseEntity.created(location).body(result);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public Response getSomeItems(String name, @PathVariable String year) {
+        return new ResponseGroups(itemsRepository.getSomeItems("groups", year));
+    }
+
+    /*@RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Item> get(@PathVariable long id) {
 
@@ -33,7 +55,7 @@ public class TaskController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody

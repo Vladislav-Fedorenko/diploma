@@ -29,18 +29,20 @@ public class TasksController {
     @Autowired
     public TasksController(ItemsRepository itemsRepository) {
         this.itemsRepository = itemsRepository;
-
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public Response getItems(@PathVariable String name) throws SQLException {
-        responses.put("groups", new ResponseGroups(itemsRepository.getAllItems(name)));
         responses.put("semesters", new ResponseSemesters(itemsRepository.getAllItems(name)));
         responses.put("specializations", new ResponseSpecializations(itemsRepository.getAllItems(name)));
 
         if(responses.containsKey(name)) {
-            return responses.get(name);
+            System.out.println(name);
+            Response tmp = responses.get(name);
+            System.out.println(tmp);
+            System.out.println("-------------------------------------------");
+            return tmp;
         }
         return null;
     }

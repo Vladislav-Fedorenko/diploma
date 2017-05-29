@@ -9,7 +9,9 @@ import java.util.List;
  * Interface for work with repository items
  */
 public interface ItemsRepository {
-    List<Item> getAllItems(String table) throws SQLException;
+    List<Item> getAllItems(String table);
+
+    List<Item> getSomeItems(String table, String condition);
 
     Item createItem(Item newItem);
 
